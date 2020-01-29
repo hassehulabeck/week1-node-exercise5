@@ -2,7 +2,9 @@ const fs = require('fs')
 const randExp = require('randexp')
 const util = require('util')
 
-const fr = util.promisify(fs.readFile)
+const rf = util.promisify(fs.readFile)
+const op = util.promisify(fs.open)
+const wr = util.promisify(fs.write)
 
 let slumpWord = ""
 let text = ""
@@ -27,21 +29,28 @@ fs.writeFile(inputFile, text, (err) => {
 })
 
 // Lite callback hell som pågår här.
-function copyText() {
-    fs.readFile(inputFile, (err, content) => {
-        if (err)
-            console.error(err)
-        else
-            fs.open(outputFile, "w", (openErr, fileHandle) => {
-                if (openErr)
-                    console.error(openErr)
-                fs.write(fileHandle, content, (writeErr, bytesWritten) => {
-                    if (writeErr)
-                        console.error(writeErr)
-                    else
-                        console.log(bytesWritten + " bytes skrivna.")
-                })
+async function copyText() {
+    let content = await rf(inputFile)
+    let openfile = await op(outputFile, "w")
+    let result = await wr(openfile)
 
-            })
-    })
+    /*    fs.readFile(inputFile, (err, content) => {
+            if (err)
+                console.error(err)
+            else
+                fs.open(outputFile, "w", (openErr, fileHandle) => {
+                    if (openErr)
+                        console.error(openErr)
+                    fs.write(fileHandle, content, (writeErr, bytesWritten) => {
+                        if (writeErr)
+                            console.error(writeErr)
+                        else
+                            console.log(bytesWritten + " bytes skrivna.")
+                    })
+
+                })
+                
+    }) 
+    }
+    */
 }
