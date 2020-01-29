@@ -1,7 +1,11 @@
 const fs = require('fs')
 const randExp = require('randexp')
-let slumpWord = "",
-    text = ""
+const util = require('util')
+
+const fr = util.promisify(fs.readFile)
+
+let slumpWord = ""
+let text = ""
 let inputFile = '../exercise4/temp/input.txt'
 let outputFile = '../exercise4/temp/output.txt'
 
