@@ -1,0 +1,3 @@
+[submodule "week1-node"]
+	path = week1-node
+	url = https://github.com/hassehulabeck/week1-node
